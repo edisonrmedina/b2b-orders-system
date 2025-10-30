@@ -1,0 +1,63 @@
+# ======================================
+# Node.js / General
+# ======================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+dist/
+build/
+.cache/
+.tmp/
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# ======================================
+# Logs
+# ======================================
+logs
+*.log
+*.out
+*.pid
+*.seed
+*.gz
+
+# ======================================
+# Docker
+# ======================================
+/data/
+*.pid
+*.tar
+docker-compose.override.yml
+
+# ======================================
+# VSCode / IDE
+# ======================================
+.vscode/
+.idea/
+*.swp
+
+# ======================================
+# Serverless / Lambda
+# ======================================
+.serverless/
+.aws-sam/
+.serverless_plugins/
+
+# ======================================
+# System files
+# ======================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ======================================
+# OS / Misc
+# ======================================
+*.bak
+*.tmp
+*.orig
