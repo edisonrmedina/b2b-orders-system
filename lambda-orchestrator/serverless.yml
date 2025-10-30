@@ -1,0 +1,21 @@
+service: lambda-orchestrator
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+
+functions:
+  orchestrate:
+    handler: src/handler.orchestrate
+    events:
+      - http:
+          path: orchestrator/create-and-confirm-order
+          method: post
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3000
