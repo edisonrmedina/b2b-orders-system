@@ -4,6 +4,8 @@ import customersRouter from "./routes/customers.js";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs"; 
 import authRouter from '../src/routes/auth.js';
+import { getCustomerById } from "./controllers/customersController.js";
+import { authMiddleware } from "./middleware/authMiddleware.js";
 
 dotenv.config();
 const app = express();
@@ -18,8 +20,6 @@ app.get("/health", (_, res) => res.json({ status: "ok" }));
 app.use("/auth", authRouter); 
 app.use("/customers", authMiddleware, customersRouter);
 
-import { getCustomerById } from "./controllers/customersController.js";
-import { authMiddleware } from "./authMiddleware.js";
 app.get("/internal/customers/:id", (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (token !== process.env.SERVICE_TOKEN)

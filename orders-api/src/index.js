@@ -4,7 +4,7 @@ import productsRouter from "./routes/products.js";
 import ordersRouter from "./routes/orders.js";
 import YAML from "yamljs";
 import swaggerUi from "swagger-ui-express";
-import { authMiddleware } from "./authMiddleware.js";
+import { authMiddleware } from "./middleware/authMiddleware.js";
 import authRouter from '../src/routes/auth.js';
 
 dotenv.config();

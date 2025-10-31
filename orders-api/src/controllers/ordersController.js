@@ -117,13 +117,12 @@ export const confirmOrder = async (req, res) => {
 
   const conn = await pool.getConnection();
   try {
-    // ¿Ya existe la key?
+    
     const [existing] = await conn.query("SELECT response_body FROM idempotency_keys WHERE `key` = ?", [key]);
     if (existing.length > 0) {
       return res.json(existing[0].response_body);
     }
 
-    // Confirmar orden
     const [orderRows] = await conn.query("SELECT * FROM orders WHERE id=?", [id]);
     if (orderRows.length === 0) throw new Error("Order not found");
     const order = orderRows[0];
@@ -166,7 +165,6 @@ export const cancelOrder = async (req, res) => {
       if (diffMinutes > 10) throw new Error("Cannot cancel after 10 minutes");
     }
 
-    // Restaurar stock
     const [items] = await conn.query("SELECT * FROM order_items WHERE order_id=?", [id]);
     for (const item of items) {
       await conn.query("UPDATE products SET stock = stock + ? WHERE id=?", [item.qty, item.product_id]);
