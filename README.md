@@ -236,6 +236,13 @@ Datos iniciales en `/db/seed.sql`.
 
 ---
 
+## 📘 Documentación Swagger
+
+- Customers API → [http://localhost:3001/docs](http://localhost:3001/docs)
+- Orders API → [http://localhost:3010/docs](http://localhost:3010/docs)
+
+--
+
 ## 🧠 Ejemplo de Flujo
 
 1. **Lambda recibe:**
@@ -250,6 +257,18 @@ Datos iniciales en `/db/seed.sql`.
 4. **Confirma la orden** (idempotente).
 
 5. **Devuelve JSON consolidado** con cliente + orden confirmada.
+
+---
+
+## ☁️ Probar Lambda (local y AWS)
+
+### 🧩 1️⃣ Ejecución local (Serverless Offline)
+
+Desde la carpeta `/lambda-orchestrator`:
+
+```bash
+npm install
+npm run dev
 
 ---
 
