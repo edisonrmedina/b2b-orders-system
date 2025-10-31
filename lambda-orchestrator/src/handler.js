@@ -5,43 +5,66 @@ dotenv.config();
 
 export const orchestrate = async (event) => {
   try {
+    // 🧩 Parse body (soporta ejecución local o en AWS)
     const body =
       typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+
     const { customer_id, items, idempotency_key, correlation_id } = body;
 
-    const CUSTOMERS_API_BASE = process.env.CUSTOMERS_API_BASE;
-    const ORDERS_API_BASE = process.env.ORDERS_API_BASE;
-    const SERVICE_TOKEN = process.env.SERVICE_TOKEN;
+    // ⚙️ Config de entorno
+    const { CUSTOMERS_API_BASE, ORDERS_API_BASE, SERVICE_TOKEN } = process.env;
 
-    const customer = await axios.get(
+    // 🔐 Headers comunes
+    const headers = {
+      Authorization: `Bearer ${SERVICE_TOKEN}`,
+      "Content-Type": "application/json",
+    };
+
+    // 1️⃣ Validar cliente en Customers API
+    const { data: customer } = await axios.get(
       `${CUSTOMERS_API_BASE}/internal/customers/${customer_id}`,
-      { headers: { Authorization: `Bearer ${SERVICE_TOKEN}` } }
+      { headers }
     );
 
-    const order = await axios.post(`${ORDERS_API_BASE}/orders`, {
-      customer_id,
-      items,
-    });
+    // 2️⃣ Crear orden en Orders API
+    const { data: order } = await axios.post(
+      `${ORDERS_API_BASE}/orders`,
+      { customer_id, items },
+      { headers }
+    );
 
-    const confirmed = await axios.post(
-      `${ORDERS_API_BASE}/orders/${order.data.id}/confirm`,
+    // 3️⃣ Confirmar orden (con idempotency key)
+    const { data: confirmed } = await axios.post(
+      `${ORDERS_API_BASE}/orders/${order.id}/confirm`,
       {},
-      { headers: { "X-Idempotency-Key": idempotency_key } }
+      { headers: { ...headers, "X-Idempotency-Key": idempotency_key } }
     );
 
+    // ✅ Éxito total
     return {
       statusCode: 201,
       body: JSON.stringify({
         success: true,
-        correlationId: correlation_id,
-        data: { customer: customer.data, order: confirmed.data },
+        correlationId: correlation_id || null,
+        data: { customer, order: confirmed },
       }),
     };
-  } catch (err) {
-    console.error("Lambda error:", err);
+  } catch (error) {
+    console.error("❌ Lambda error:", error.message);
+
+    // Extraer detalle si viene de Axios
+    const status = error.response?.status || 500;
+    const message =
+      error.response?.data?.error ||
+      error.response?.data?.message ||
+      error.message;
+
     return {
-      statusCode: 400,
-      body: JSON.stringify({ success: false, error: err.message }),
+      statusCode: status,
+      body: JSON.stringify({
+        success: false,
+        error: message,
+      }),
     };
   }
 };
