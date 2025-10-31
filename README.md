@@ -269,6 +269,7 @@ Desde la carpeta `/lambda-orchestrator`:
 ```bash
 npm install
 npm run dev
+```
 
 --
 
