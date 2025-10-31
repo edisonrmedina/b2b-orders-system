@@ -17,7 +17,7 @@ Desarrollado con **Node.js + Express + MySQL + Docker + Serverless Framework**.
         +--> MySQL (base de datos b2b)
 ```
 
----
+--
 
 ## ⚙️ Tecnologías Utilizadas
 
@@ -31,7 +31,7 @@ Desarrollado con **Node.js + Express + MySQL + Docker + Serverless Framework**.
 - **Zod / Joi** (validación)
 - **OpenAPI 3.0** (documentación de endpoints)
 
----
+--
 
 ## 🚀 Levantamiento del Entorno Local
 
@@ -111,7 +111,7 @@ Serverless mostrará algo como:
 Serverless: Offline [HTTP] listening on http://localhost:3000
 ```
 
----
+--
 
 ## 🧪 Probar el Flujo Completo
 
@@ -156,7 +156,7 @@ POST http://localhost:3000/dev/orchestrator/create-and-confirm-order
 }
 ```
 
----
+--
 
 ## 🧩 Estructura del Proyecto
 
@@ -194,7 +194,7 @@ b2b-orders-system/
 └── docker-compose.yml
 ```
 
----
+--
 
 ## 🧮 Base de Datos
 
@@ -208,7 +208,7 @@ Las tablas mínimas incluidas en `/db/schema.sql`:
 
 Datos iniciales en `/db/seed.sql`.
 
----
+--
 
 ## 📜 Endpoints Principales
 
@@ -234,7 +234,7 @@ Datos iniciales en `/db/seed.sql`.
 |--------|------|-------------|
 | POST | `/dev/orchestrator/create-and-confirm-order` | Orquesta creación + confirmación de pedido |
 
----
+--
 
 ## 📘 Documentación Swagger
 
@@ -270,9 +270,9 @@ Desde la carpeta `/lambda-orchestrator`:
 npm install
 npm run dev
 
----
+--
 
----
+--
 ## ✅ Comandos Útiles
 
 ```bash
@@ -289,7 +289,7 @@ docker exec -it mysql_db mysql -uroot -proot b2b
 docker-compose up -d --build customers-api
 ```
 
----
+--
 
 ## 🐛 Troubleshooting
 
@@ -310,14 +310,14 @@ Asegúrate de que el contenedor de MySQL esté corriendo:
 docker-compose ps
 ```
 
----
+--
 
 ## 🧾 Créditos
 
 Desarrollado por **Edison Reinoso**  
 Prueba técnica – Senior Backend (Node.js + MySQL + Docker + Lambda)
 
----
+--
 
 ## 📄 Licencia
 
