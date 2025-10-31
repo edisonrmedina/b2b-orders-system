@@ -3,8 +3,6 @@
 Sistema B2B compuesto por dos APIs (Customers y Orders) y un Lambda Orchestrator que las orquesta.  
 Desarrollado con **Node.js + Express + MySQL + Docker + Serverless Framework**.
 
----
-
 ## 🧱 Arquitectura General
 
 ```
@@ -17,8 +15,6 @@ Desarrollado con **Node.js + Express + MySQL + Docker + Serverless Framework**.
         +--> MySQL (base de datos b2b)
 ```
 
---
-
 ## ⚙️ Tecnologías Utilizadas
 
 - **Node.js 22**
@@ -30,8 +26,6 @@ Desarrollado con **Node.js + Express + MySQL + Docker + Serverless Framework**.
 - **JWT + dotenv**
 - **Zod / Joi** (validación)
 - **OpenAPI 3.0** (documentación de endpoints)
-
---
 
 ## 🚀 Levantamiento del Entorno Local
 
@@ -111,8 +105,6 @@ Serverless mostrará algo como:
 Serverless: Offline [HTTP] listening on http://localhost:3000
 ```
 
---
-
 ## 🧪 Probar el Flujo Completo
 
 ### Endpoint Lambda
@@ -156,8 +148,6 @@ POST http://localhost:3000/dev/orchestrator/create-and-confirm-order
 }
 ```
 
---
-
 ## 🧩 Estructura del Proyecto
 
 ```
@@ -194,8 +184,6 @@ b2b-orders-system/
 └── docker-compose.yml
 ```
 
---
-
 ## 🧮 Base de Datos
 
 Las tablas mínimas incluidas en `/db/schema.sql`:
@@ -207,8 +195,6 @@ Las tablas mínimas incluidas en `/db/schema.sql`:
 - `idempotency_keys` (key, target_type, target_id, status, response_body, created_at, expires_at)
 
 Datos iniciales en `/db/seed.sql`.
-
---
 
 ## 📜 Endpoints Principales
 
@@ -234,14 +220,11 @@ Datos iniciales en `/db/seed.sql`.
 |--------|------|-------------|
 | POST | `/dev/orchestrator/create-and-confirm-order` | Orquesta creación + confirmación de pedido |
 
---
 
 ## 📘 Documentación Swagger
 
 - Customers API → [http://localhost:3001/docs](http://localhost:3001/docs)
 - Orders API → [http://localhost:3010/docs](http://localhost:3010/docs)
-
---
 
 ## 🧠 Ejemplo de Flujo
 
@@ -258,7 +241,6 @@ Datos iniciales en `/db/seed.sql`.
 
 5. **Devuelve JSON consolidado** con cliente + orden confirmada.
 
---
 
 ## ☁️ Probar Lambda (local y AWS)
 
@@ -271,9 +253,6 @@ npm install
 npm run dev
 ```
 
---
-
---
 ## ✅ Comandos Útiles
 
 ```bash
@@ -289,8 +268,6 @@ docker exec -it mysql_db mysql -uroot -proot b2b
 # Reconstruir un servicio específico
 docker-compose up -d --build customers-api
 ```
-
---
 
 ## 🐛 Troubleshooting
 
@@ -311,14 +288,12 @@ Asegúrate de que el contenedor de MySQL esté corriendo:
 docker-compose ps
 ```
 
---
 
 ## 🧾 Créditos
 
 Desarrollado por **Edison Reinoso**  
 Prueba técnica – Senior Backend (Node.js + MySQL + Docker + Lambda)
 
---
 
 ## 📄 Licencia
 
