@@ -258,7 +258,7 @@ Datos iniciales en `/db/seed.sql`.
 
 5. **Devuelve JSON consolidado** con cliente + orden confirmada.
 
----
+--
 
 ## ☁️ Probar Lambda (local y AWS)
 
