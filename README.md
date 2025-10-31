@@ -155,6 +155,9 @@ POST http://localhost:3000/dev/orchestrator/create-and-confirm-order
   }
 }
 ```
+<img width="1633" height="920" alt="image" src="https://github.com/user-attachments/assets/115768f0-4596-44ad-980f-1f235607faf9" />
+
+<img width="1908" height="923" alt="image" src="https://github.com/user-attachments/assets/05738ecf-c27f-4f81-8f23-00f3e9c3c925" />
 
 ---
 
