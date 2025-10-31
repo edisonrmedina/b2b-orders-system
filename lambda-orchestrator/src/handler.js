@@ -21,11 +21,14 @@ export const orchestrate = async (event) => {
     };
 
     
+    console.log("Validating customer...");
+    
     const { data: customer } = await axios.get(
       `${CUSTOMERS_API_BASE}/internal/customers/${customer_id}`,
       { headers }
     );
 
+    console.log("Creating order...");
     
     const { data: order } = await axios.post(
       `${ORDERS_API_BASE}/orders`,
@@ -34,6 +37,7 @@ export const orchestrate = async (event) => {
     );
 
     
+    console.log("Confirming order...");
     const { data: confirmed } = await axios.post(
       `${ORDERS_API_BASE}/orders/${order.id}/confirm`,
       {},
