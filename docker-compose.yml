@@ -28,7 +28,7 @@ services:
   orders-api:
     build: ./orders-api
     ports:
-      - "3002:3002"
+      - "3010:3002"
     environment:
       - DB_HOST=mysql
       - DB_USER=root

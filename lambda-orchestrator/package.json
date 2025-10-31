@@ -2,7 +2,6 @@
   "name": "lambda-orchestrator",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "dev": "serverless offline",
     "deploy": "serverless deploy"
@@ -17,6 +16,6 @@
   },
   "devDependencies": {
     "serverless": "^3.38.0",
-    "serverless-offline": "^12.0.4"
+    "serverless-offline": "^13.3.0"
   }
 }

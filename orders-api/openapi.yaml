@@ -1,0 +1,159 @@
+openapi: 3.0.3
+info:
+  title: Orders API
+  version: 1.0.0
+  description: |
+    API para gestionar productos y órdenes B2B.
+    - Requiere autenticación JWT (Bearer token)
+    - Endpoint interno protegido con `SERVICE_TOKEN` para el Lambda orchestrator.
+
+servers:
+  - url: http://localhost:3010
+    description: Local Docker
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/login:
+    post:
+      summary: "Obtener token JWT"
+      description: "Retorna un token JWT válido a partir de un email."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: admin@b2b.com
+      responses:
+        "200":
+          description: Token generado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+  /api/products:
+    get:
+      summary: Listar productos
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de productos
+    post:
+      summary: Crear producto
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sku:
+                  type: string
+                name:
+                  type: string
+                price_cents:
+                  type: integer
+                stock:
+                  type: integer
+      responses:
+        "201":
+          description: Producto creado
+
+  /orders:
+    post:
+      summary: Crear orden
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_id:
+                  type: integer
+                  example: 1
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      product_id:
+                        type: integer
+                        example: 2
+                      qty:
+                        type: integer
+                        example: 3
+      responses:
+        "201":
+          description: Orden creada exitosamente
+    get:
+      summary: Listar órdenes
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de órdenes
+
+  /orders/{id}/confirm:
+    post:
+      summary: Confirmar orden
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: X-Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            example: abc-123
+      responses:
+        "200":
+          description: Orden confirmada exitosamente

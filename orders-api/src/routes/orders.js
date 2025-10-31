@@ -1,12 +1,16 @@
 import { Router } from "express";
 import {
+  cancelOrder,
+  confirmOrder,
   createOrder,
   getOrderById,
   listOrders
 } from "../controllers/ordersController.js";
 import { validateOrder } from "../validators/ordersValidator.js";
+import authRouter from "../routes/auth.js";
 
 const router = Router();
+
 
 // Crear orden
 router.post("/", validateOrder, createOrder);

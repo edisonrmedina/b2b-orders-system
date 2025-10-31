@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: Customers API
+  version: 1.0.0
+  description: >
+    API para la gestión de clientes del sistema B2B Orders.  
+    Permite crear, consultar, actualizar y eliminar clientes.  
+    **Requiere autenticación JWT** para la mayoría de los endpoints.
+servers:
+  - url: http://localhost:3001
+    description: Entorno local (Docker Compose)
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: ACME Corp
+        email:
+          type: string
+          example: ops@acme.com
+        phone:
+          type: string
+          example: 555-1234
+        created_at:
+          type: string
+          format: date-time
+          example: 2025-10-31T06:42:20.000Z
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/login:
+    post:
+      summary: Obtener token JWT
+      description: "Devuelve un token JWT válido para autenticación"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: ops@acme.com
+      responses:
+        "200":
+          description: Token generado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+  /health:
+    get:
+      summary: Verifica el estado del servicio
+      responses:
+        "200":
+          description: Servicio activo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /customers:
+    post:
+      summary: Crear cliente
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: ACME Corp
+                email:
+                  type: string
+                  example: ops@acme.com
+                phone:
+                  type: string
+                  example: "555-1234"
+      responses:
+        "201":
+          description: Cliente creado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+
+  /customers/{id}:
+    get:
+      summary: Obtener cliente por ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "404":
+          description: Cliente no encontrado
+
+    put:
+      summary: Actualizar cliente
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+      responses:
+        "200":
+          description: Cliente actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+
+    delete:
+      summary: Eliminar cliente
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Cliente eliminado
+
+  /internal/customers/{id}:
+    get:
+      summary: Endpoint interno para validar cliente desde Orders API
+      description: >
+        Este endpoint es usado internamente por el Orchestrator y Orders API.  
+        Requiere el header `Authorization: Bearer SERVICE_TOKEN`.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Cliente válido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "403":
+          description: No autorizado (token inválido)
