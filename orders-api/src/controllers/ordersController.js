@@ -7,7 +7,6 @@ export const createOrder = async (req, res) => {
   const { customer_id, items } = req.body;
 
   try {
-    // Validar cliente en Customers API
     const customerResp = await axios.get(
       `${process.env.CUSTOMERS_API_BASE}/internal/customers/${customer_id}`,
       { headers: { Authorization: `Bearer ${process.env.SERVICE_TOKEN}` } }
@@ -65,7 +64,6 @@ export const createOrder = async (req, res) => {
   }
 };
 
-// Obtener una orden por ID (incluye items)
 export const getOrderById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -80,7 +78,6 @@ export const getOrderById = async (req, res) => {
   }
 };
 
-// Listar órdenes con filtros básicos
 export const listOrders = async (req, res) => {
   const { status, from, to, limit = 20 } = req.query;
 

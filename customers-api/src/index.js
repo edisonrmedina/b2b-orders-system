@@ -13,14 +13,11 @@ app.use(express.json());
 const swaggerDocument = YAML.load("./openapi.yaml");
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// Health check
 app.get("/health", (_, res) => res.json({ status: "ok" }));
 
-// Rutas principales
 app.use("/auth", authRouter); 
 app.use("/customers", authMiddleware, customersRouter);
 
-// Endpoint interno para Orders
 import { getCustomerById } from "./controllers/customersController.js";
 import { authMiddleware } from "./authMiddleware.js";
 app.get("/internal/customers/:id", (req, res) => {

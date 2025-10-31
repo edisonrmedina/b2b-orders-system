@@ -17,10 +17,8 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/auth", authRouter);
 
-// Health check
 app.get("/health", (_, res) => res.json({ status: "ok" }));
 
-// Rutas
 app.use("/api/products",authMiddleware , productsRouter);
 app.use("/orders",authMiddleware, ordersRouter);
 
